@@ -3,6 +3,7 @@ package org.springmvc;
 public class ControllerEntity {
     String controllerName;
     String methodName;
+    boolean returnIsObject;
 
     public String getControllerName() {
         return controllerName;
@@ -18,5 +19,13 @@ public class ControllerEntity {
 
     public void setMethodName(String methodName) {
         this.methodName = methodName;
+    }
+
+    public boolean isReturnIsObject() {
+        return returnIsObject;
+    }
+
+    public void setReturnIsObject(boolean returnIsObject) {
+        this.returnIsObject = returnIsObject;
     }
 }
