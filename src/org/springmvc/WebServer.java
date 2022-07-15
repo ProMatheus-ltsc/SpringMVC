@@ -1,6 +1,9 @@
 package org.springmvc;
 
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -43,6 +46,19 @@ public class WebServer  {
         @Override
         public void run() {
             System.out.println("有请求过来了");
+            try{
+                //调用springMVC框架
+                InputStream inputStream = socket.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String requestLine = bufferedReader.readLine();
+                System.out.println("浏览器发过来的请求行" + requestLine);
+
+                //返回数据给浏览器
+            }catch(Exception e){
+                e.printStackTrace();
+
+            }
             //调用springmvc框架
             //返回数据给浏览器
         }
