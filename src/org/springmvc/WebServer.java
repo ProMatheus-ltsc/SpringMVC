@@ -6,8 +6,10 @@ import javax.http.Response;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 //实现了tomcat的功能
 //接收浏览器发过来的数据, 调用SpringMVC, 把结果返回给浏览器
@@ -66,6 +68,24 @@ public class WebServer  {
                 System.out.println("controller执行的结果=" + response.getResponseBody());
 
                 //返回数据给浏览器
+                //创建响应行
+                String responseLine = "HTTP1.1 200 ok\r\n";
+                //创建响应头
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("Content-Type:text/html\r\n");
+                stringBuilder.append("Content-Length:" + response.getResponseBody().getBytes().length + "\r\n");
+                stringBuilder.append("\r\n");
+
+                //得到输出流
+                OutputStream outputStream = socket.getOutputStream();
+
+                //向浏览器返回响应行
+                outputStream.write(requestLine.getBytes());
+                //向浏览器返回响应头
+                outputStream.write(stringBuilder.toString().getBytes());
+                //向浏览器返回响应体
+                outputStream.write(response.getResponseBody().getBytes());
+
             }catch(Throwable e){
                 e.printStackTrace();
 
