@@ -9,13 +9,13 @@ import javax.http.Response;
 @Controller
 public class UserController {
     @RequestMapping("/login")
-    public Response login(Request request){
+    public Response login(){
         Response response = new Response();
         response.setResponseBody("login success");
         return response;
     }
     @RequestMapping("/register")
-    public Response register(Request request){
+    public Response register(){
         Response response = new Response();
         response.setResponseBody("register success");
         return  response;

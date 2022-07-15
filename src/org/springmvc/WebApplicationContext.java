@@ -8,7 +8,7 @@ public class WebApplicationContext {
 
     public void init() throws Throwable{
         //扫描所有的controller
-        String[] controllerNames = {"com.project.UserController.login"};
+        String[] controllerNames = {"com.project.UserController"};
         //遍历所有的controller
         for(String controllerName : controllerNames){
             //根据类名创建类对象clazz

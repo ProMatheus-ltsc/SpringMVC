@@ -1,6 +1,8 @@
 package org.springmvc;
 
 
+import javax.http.Request;
+import javax.http.Response;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -53,9 +55,18 @@ public class WebServer  {
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String requestLine = bufferedReader.readLine();
                 System.out.println("浏览器发过来的请求行" + requestLine);
+                //get /login http1.1
+                String[] strings = requestLine.split("\\ ");
+                String url = strings[1];
+                Request request = new Request();
+                request.setUrl(url);
+                //调用springMVC框架
+                DispatcherServlet dispatcherServlet = new DispatcherServlet();
+                Response response = dispatcherServlet.doDispatch(request);
+                System.out.println("controller执行的结果=" + response.getResponseBody());
 
                 //返回数据给浏览器
-            }catch(Exception e){
+            }catch(Throwable e){
                 e.printStackTrace();
 
             }
