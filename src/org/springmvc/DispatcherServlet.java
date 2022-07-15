@@ -1,5 +1,7 @@
 package org.springmvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.http.Request;
 import javax.http.Response;
 import java.lang.reflect.Method;
@@ -18,6 +20,7 @@ public class DispatcherServlet {
         ControllerEntity controllerEntity = WebApplicationContext.urlMapping.get(url);
 
         //得到controllerName
+        //TODO 此处有空指针异常;
         String controllerName = controllerEntity.getControllerName();
         //得到方法名
         String methodName = controllerEntity.getMethodName();
@@ -32,9 +35,22 @@ public class DispatcherServlet {
         Method method = clazz.getDeclaredMethod(methodName);
         //用反射调用方法 method.invoke(controller对象)
         Response response = null;
-        //相当于controllerObject.method()
-        response = (Response) method.invoke(controllerObject);
+        //判断调用的方法返回的是不是实体类
+        if(controllerEntity.isReturnIsObject() == true){
+            Object entity = method.invoke(controllerObject);
+            //调用jackson把实体类转为json字符串
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(entity);
+            response = new Response();
+            response.setResponseBody(json);
+
+        }else{
+            //相当于controllerObject.method()
+            response = (Response) method.invoke(controllerObject);
+
+        }
         //返回response给webServer
         return response;
+
     }
 }

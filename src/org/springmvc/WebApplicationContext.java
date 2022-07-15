@@ -30,6 +30,13 @@ public class WebApplicationContext {
                     ControllerEntity controllerEntity = new ControllerEntity();
                     controllerEntity.setControllerName(controllerName);
                     controllerEntity.setMethodName(methodName);
+                    //判断类有没有加@RestController
+                    RestController restController = (RestController) clazz.getAnnotation(RestController.class);
+                    boolean returnIsObject = false;
+                    if(restController != null){
+                        returnIsObject = true;
+                    }
+                    controllerEntity.setReturnIsObject(returnIsObject);
                     //把url,controllerEntity放到urlMapping中
                     urlMapping.put(url,controllerEntity);
                 }
