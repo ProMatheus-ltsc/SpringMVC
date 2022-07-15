@@ -80,7 +80,7 @@ public class WebServer  {
                 OutputStream outputStream = socket.getOutputStream();
 
                 //向浏览器返回响应行
-                outputStream.write(requestLine.getBytes());
+                outputStream.write(responseLine.getBytes());
                 //向浏览器返回响应头
                 outputStream.write(stringBuilder.toString().getBytes());
                 //向浏览器返回响应体
@@ -90,8 +90,7 @@ public class WebServer  {
                 e.printStackTrace();
 
             }
-            //调用springmvc框架
-            //返回数据给浏览器
+
         }
     }
 }
